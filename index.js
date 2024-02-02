@@ -1,18 +1,19 @@
-const admin = require("firebase-admin");
+const { initializeApp, applicationDefault } = require("firebase-admin/app");
 const { getMessaging } = require("firebase-admin/messaging");
 const express = require("express");
+const cors = require("cors");
 
-const filePath =
-  "./global-impulse-392611-firebase-adminsdk-a3ft5-d9c986ff2b.json";
+process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
 const app = express();
 
 app.use(express.json());
 
-const serviceAccount = require(filePath);
+app.use(cors({ origin: "*" }));
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+initializeApp({
+  credential: applicationDefault(),
+  projectId: "global-impulse-392611",
 });
 
 app.get("/", (req, res) => {
@@ -31,12 +32,12 @@ app.post("/send", (req, res) => {
       },
       token: senderToken || "",
     };
-    admin
-      .messaging()
+
+    getMessaging()
       .send(message)
-      .then((res) => {
+      .then((result) => {
         return res.status(200).json({
-          message: "Successfully sent message",
+          message: `Successfully sent message ${result}`,
           token: senderToken || "",
         });
       })
