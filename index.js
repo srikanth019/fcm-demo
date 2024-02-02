@@ -27,7 +27,7 @@ app.post("/send", (req, res) => {
         title: "FCM Notification",
         body: "Testing FCM notification",
       },
-      token: senderToken,
+      token: senderToken || "",
     };
     admin
       .messaging()
@@ -35,7 +35,7 @@ app.post("/send", (req, res) => {
       .then((res) => {
         return res.status(200).json({
           message: "Successfully sent message",
-          token: senderToken,
+          token: senderToken || "",
         });
       })
       .catch((error) => {
