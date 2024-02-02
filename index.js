@@ -22,6 +22,7 @@ app.get("/", (req, res) => {
 app.post("/send", (req, res) => {
   try {
     const senderToken = req.body.token;
+    console.log(/token/, token);
     const message = {
       notification: {
         title: "FCM Notification",
