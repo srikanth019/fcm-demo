@@ -23,7 +23,6 @@ app.get("/", (req, res) => {
 
 app.post("/send", (req, res) => {
   try {
-    console.log(/token/, req.body);
     const senderToken = req.body.token;
     const message = {
       notification: {
@@ -49,6 +48,12 @@ app.post("/send", (req, res) => {
     console.log("Something went wrong", error);
     return res.status(400).send(error);
   }
+});
+
+app.use((req, res, next) => {
+  return res.status(404).json({
+    error: "Not Found",
+  });
 });
 
 app.listen(3001, () => {
