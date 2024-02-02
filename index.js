@@ -7,6 +7,8 @@ const filePath =
 
 const app = express();
 
+app.use(express.json());
+
 const serviceAccount = require(filePath);
 
 admin.initializeApp({
@@ -21,8 +23,8 @@ app.get("/", (req, res) => {
 
 app.post("/send", (req, res) => {
   try {
+    console.log(/token/, req.body);
     const senderToken = req.body.token;
-    console.log(/token/, token);
     const message = {
       notification: {
         title: "FCM Notification",
